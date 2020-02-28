@@ -7,6 +7,7 @@ endif
 # Compiler
 CXX := g++
 CXX_FLAGS := -Wall -Werror -std=c++11
+THREAD_FLAG := -pthread
 
 # Current directory
 CUR_PWD := $(shell pwd)
@@ -14,11 +15,9 @@ CUR_PWD := $(shell pwd)
 # Main program
 program := main.out
 objs := main.o
-matlib := -I matrix.h
 
 # Include path
-MATLIB := matlib
-MATLIB_PATH := $(MATLIB)
+MATLIB_PATH := matlib
 INCLUDE := -I $(MATLIB_PATH)
 
 all: $(program)
@@ -26,12 +25,12 @@ all: $(program)
 # Rule for main program
 $(program): $(objs)
 	@echo "MAKE     $@"
-	$(Q)$(CXX) $(CXX_FLAGS) -o $@ $<
+	$(Q)$(CXX) $(CXX_FLAGS) $(THREAD_FLAG) -o $@ $<
 
 # Generic rule for compiling objects
 %.o: %.cpp
 	@echo "CXX       $@"
-	$(Q)$(CXX) $(CXX_FLAGS) $(INCLUDE) -c -o $@ $<
+	$(Q)$(CXX) $(CXX_FLAGS) $(THREAD_FLAG) $(INCLUDE) -c -o $@ $<
 
 # Cleaning rule
 clean:
