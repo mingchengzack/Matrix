@@ -11,7 +11,11 @@ class Matrix {
   std::vector<std::vector<T>> mat;
   static unsigned num_threads;
 
-  void transpose_(Matrix<T>& mat_t, int count) const;
+  void transpose_(Matrix<T>& mat_t,
+                  int count) const;  // Using threads to do transposition
+
+  void multiply(const Matrix<T>& rhs, Matrix<T>& res,
+                int count) const;  // Using threads to do multiplication
 
  public:
   // Constructor and Destructors

@@ -102,11 +102,34 @@ Matrix<T> Matrix<T>::transpose() const {
   return mat_t;
 }
 
-// Multiplication of two matrices
+// Perform multiplication of two matrices
+template <typename T>
+void Matrix<T>::multiply(const Matrix<T>& rhs, Matrix<T>& res,
+                         int count) const {
+  unsigned si = count * res.rows / Matrix::num_threads;
+  unsigned ei = (count + 1) * res.rows / Matrix::num_threads;
+  for (unsigned i = si; i < ei; i++) {
+    for (unsigned j = 0; j < res.cols; j++) {
+      for (int k = 0; k < cols; k++) res.mat[i][j] += mat[i][k] * rhs.mat[k][j];
+    }
+  }
+}
+
 template <typename T>
 Matrix<T> Matrix<T>::operator*(const Matrix<T>& rhs) const {
-  Matrix result(rows, cols, 0.0);
-  return result;
+  Matrix<T> res(rows, rhs.cols, 0.0);
+
+  // Create threads to perform multiplication
+  std::vector<std::thread> threads;
+  for (unsigned i = 0; i < Matrix::num_threads; i++) {
+    threads.push_back(std::thread(&Matrix<T>::multiply, this, std::ref(rhs),
+                                  std::ref(res), i));
+  }
+
+  // Wait for each thread to finish computation
+  for (unsigned i = 0; i < threads.size(); i++) threads[i].join();
+
+  return res;
 }
 
 // Multiplication of two matrices
