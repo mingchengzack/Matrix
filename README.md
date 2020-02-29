@@ -32,6 +32,14 @@ For the Matrix class, I have three 3 members.
 * `static unsigned num_threads`: the default number of threads to use (2)
 
 ### Transposition
+I use multiple threads to compute the tranpose of a matrix. If there are `n` rows
+for the original matrix and `t` threads (`Matrix::num_threads = t`), I will have one thread to compute the `n / t` rows for the tranpose of the matrix using
+`mat_tranpose[i][j] = mat[j][j]`.
 
 ### Multiplication
+I use multiple threads to compute the multiplcation between two matrice. For a
+matrix A with `MxN` dimension and matrix B with `NxP` dimension, which means the
+result matrix will be `MxP` dimension. If I have `t` threads
+(`Matrix::num_threads = t`), then I will have one thread to compute the `M / t`
+rows of the result matrix using `res[i][j] = matA[i][k] * mat[k][j]`.
 
