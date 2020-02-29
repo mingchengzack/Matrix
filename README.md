@@ -37,9 +37,17 @@ for the original matrix and `t` threads (`Matrix::num_threads = t`), I will have
 `mat_tranpose[i][j] = mat[j][j]`.
 
 ### Multiplication
+Before doing a multiplcation, I check if two matrice have the matching dimension and if
+not, I would stop the program. (using assert)
+
 I use multiple threads to compute the multiplcation between two matrice. For a
 matrix A with `MxN` dimension and matrix B with `NxP` dimension, which means the
-result matrix will be `MxP` dimension. If I have `t` threads
-(`Matrix::num_threads = t`), then I will have one thread to compute the `M / t`
-rows of the result matrix using `res[i][j] = matA[i][k] * mat[k][j]`.
+result matrix will be `MxP` dimension. If I have `t` threads (`Matrix::num_threads = t`),
+then I will have one thread to compute the `M / t` rows of the result matrix
+using `res[i][j] = matA[i][k] * mat[k][j]`.
+
+### Notes about number of threads
+For both transposition and multiplcation, I have one thread to handle the computation
+of at least two rows, so if there are `t` threads and `n` rows, where `t > rows / 2`,
+I would set `t = rows / 2`.
 
