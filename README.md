@@ -4,8 +4,9 @@
 
 ### How to compile
 I had written a Makefile for compilation. Type make and a program called main.out
-will be compiled and ready to run, which showcases some simple cases for matrix
-transposition and multiplication.
+and a test program called /test/test.out will be compiled and ready to run. `main.out`
+showcases some simple cases for matrix transposition and multiplication. `test.out`
+runs some unit tests on both functions.
 
 ### Usage
 The implementation of the library is is in matlib/matrix.h and matlib/matrix.cpp.
