@@ -47,7 +47,7 @@ matrix `A` with `MxN` dimension and matrix `B` with `NxP` dimension, which means
 result matrix will be `MxP` dimension. If I have `t` threads (`Matrix<T>::num_threads = t`),
 then I will have one thread to compute the `M / t` rows of the result matrix. Before
 performing the actual multiplication, I first transpose matrix `B` and then multiply them
-using `res[i][j] = matA[i][k] * matB_T[j][k]` so that the access of matrix B_T can
+using `res[i][j] += matA[i][k] * matB_T[j][k]` so that the access of matrix `B_T` can
 be continuous/sequential which can speed up the run time for big matrix.
 
 ### Notes about number of threads
