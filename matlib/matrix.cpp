@@ -134,13 +134,14 @@ Matrix<T> Matrix<T>::transpose() const {
 
 // Perform multiplication of two matrices
 template <typename T>
-void Matrix<T>::multiply(const Matrix<T>& rhs, Matrix<T>& res,
+void Matrix<T>::multiply(const Matrix<T>& rhs_t, Matrix<T>& res,
                          unsigned num_threads, unsigned count) const {
   unsigned si = count * res.rows / num_threads;
   unsigned ei = (count + 1) * res.rows / num_threads;
   for (unsigned i = si; i < ei; i++) {
     for (unsigned j = 0; j < res.cols; j++) {
-      for (int k = 0; k < cols; k++) res.mat[i][j] += mat[i][k] * rhs.mat[k][j];
+      for (int k = 0; k < cols; k++)
+        res.mat[i][j] += mat[i][k] * rhs_t.mat[j][k];
     }
   }
 }
@@ -152,12 +153,14 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& rhs) const {
   // Check valid matrix dimension for multiplcation
   assert(cols == rhs.rows);
 
+  Matrix<T> rhs_t = rhs.transpose();
+
   // Create threads to perform multiplication
   std::vector<std::thread> threads;
   unsigned num_threads = Matrix<T>::num_threads;
   if (num_threads > rows / 2) num_threads = rows / 2 == 0 ? 1 : rows / 2;
   for (unsigned i = 0; i < num_threads; i++) {
-    threads.push_back(std::thread(&Matrix<T>::multiply, this, std::ref(rhs),
+    threads.push_back(std::thread(&Matrix<T>::multiply, this, std::ref(rhs_t),
                                   std::ref(res), num_threads, i));
   }
 
