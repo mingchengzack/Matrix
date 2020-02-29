@@ -5,8 +5,8 @@
 using namespace std::chrono;
 
 int main() {
-  Matrix<int> m1(1000, 1000, 2);
-  Matrix<int> m2(1000, 1000, 2);
+  Matrix<int> m1(3, 3, 2);
+  Matrix<int> m2(3, 3, 2);
   m1(0, 0) = 1;
   m1(0, 2) = 3;
   m1(1, 0) = 4;
@@ -16,10 +16,12 @@ int main() {
   m1(2, 1) = 8;
   m1(2, 2) = 9;
 
-  //   m1.print();
+  (m1.transpose()).print();
   auto start = high_resolution_clock::now();
-
-  (m1 * m2);
+  Matrix<int> m3({{1, 2, 3}, {4, 5, 6}});
+  m3.print();
+  (m3 *= m2);
+  m3.print();
 
   auto stop = high_resolution_clock::now();
   auto duration = duration_cast<microseconds>(stop - start);

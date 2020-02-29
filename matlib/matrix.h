@@ -11,14 +11,13 @@ class Matrix {
   std::vector<std::vector<T>> mat;
   static unsigned num_threads;
 
-  void transpose_(Matrix<T>& mat_t,
-                  int count) const;  // Using threads to do transposition
+  void transpose_(Matrix<T>& mat_t, unsigned num_threads,
+                  unsigned count) const;  // Using threads to do transposition
 
-  void multiply(const Matrix<T>& rhs, Matrix<T>& res,
-                int count) const;  // Using threads to do multiplication
+  void multiply(const Matrix<T>& rhs, Matrix<T>& res, unsigned num_threads,
+                unsigned count) const;  // Using threads to do multiplication
 
  public:
-  // Constructor and Destructors
   explicit Matrix(unsigned rows_, unsigned cols_,
                   const T& val);  // Constructor for matrix with same values
   explicit Matrix(
@@ -37,6 +36,11 @@ class Matrix {
   Matrix<T> transpose() const;  // Perform transposition
   Matrix<T> operator*(const Matrix<T>& rhs) const;  // Multiplication
   Matrix<T>& operator*=(const Matrix<T>& rhs);      // Multiplication
+
+  static unsigned get_threads() { return num_threads; }
+  static void change_threads(unsigned num_t) {
+    num_threads = num_t;
+  }  // Change the default number of threads used
 };
 
 template <typename T>
