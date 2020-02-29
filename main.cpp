@@ -2,8 +2,6 @@
 #include <iostream>
 #include "matrix.h"
 
-// using namespace std::chrono;
-
 int main() {
   // Doing tranposition
   std::cout << "Matrix Transposition:" << std::endl;
@@ -26,17 +24,5 @@ int main() {
   std::cout << "   =" << std::endl;
   (matB * matC).print();
 
-  //   (m1.transpose()).print();
-  //   auto start = high_resolution_clock::now();
-  //   Matrix<int> m3({{1, 2, 3}, {4, 5, 6}});
-  //   m3.print();
-  //   (m3 *= m2);
-  //   m3.print();
-
-  //   auto stop = high_resolution_clock::now();
-  //   auto duration = duration_cast<microseconds>(stop - start);
-
-  //   std::cout << "Time used: " << duration.count() << "microseconds" <<
-  //   std::endl;
   return 0;
 }

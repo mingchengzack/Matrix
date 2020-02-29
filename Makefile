@@ -16,11 +16,15 @@ CUR_PWD := $(shell pwd)
 program := main.out
 objs := main.o
 
+# Unit Testing program
+test := test/test.out
+test_file := test/test.cpp
+
 # Include path
 MATLIB_PATH := matlib
 INCLUDE := -I $(MATLIB_PATH)
 
-all: $(program)
+all: $(program) $(test)
 
 # Rule for main program
 $(program): $(objs)
@@ -32,9 +36,14 @@ $(program): $(objs)
 	@echo "CXX       $@"
 	$(Q)$(CXX) $(CXX_FLAGS) $(THREAD_FLAG) $(INCLUDE) -c -o $@ $<
 
+# Rule for test program
+$(test): $(test_file)
+	@echo "MAKE     $@"
+	$(Q)$(CXX) $(CXX_FLAGS) $(THREAD_FLAG) $(INCLUDE) -o $@ $<
+
 # Cleaning rule
 clean:
 	@echo "CLEAN    $(CUR_PWD)"
-	$(Q)rm -f $(program) $(objs)
+	$(Q)rm -f $(program) $(objs) $(test)
 
-.PHONY: clean $(program)
+.PHONY: clean $(program) $(test)

@@ -3,6 +3,7 @@
 
 #include "matrix.h"
 #include <cassert>
+#include <cmath>
 #include <functional>
 #include <iostream>
 #include <thread>
@@ -34,6 +35,30 @@ Matrix<T>::Matrix(const Matrix<T>& rhs) {
 // Destructor
 template <typename T>
 Matrix<T>::~Matrix() {}
+
+// Equal function for double or float
+template <typename T>
+bool equals(T a, T b, double epsilon = 0.001) {
+  return std::abs(a - b) < epsilon;
+}
+
+// Comparing if two matrices are equal
+template <typename T>
+bool Matrix<T>::operator==(const Matrix<T>& rhs) const {
+  if (this == &rhs) return true;
+
+  if (rows != rhs.rows || cols != rhs.cols) return false;
+
+  for (unsigned i = 0; i < rows; i++) {
+    for (unsigned j = 0; j < cols; j++) {
+      if (!equals(mat[i][j], rhs.mat[i][j])) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
 
 // Modify matrix elements
 template <typename T>
@@ -93,7 +118,7 @@ Matrix<T> Matrix<T>::transpose() const {
 
   // Create threads to perform transposition
   std::vector<std::thread> threads;
-  unsigned num_threads = Matrix::num_threads;
+  unsigned num_threads = Matrix<T>::num_threads;
   if (num_threads > rows / 2) num_threads = rows / 2 == 0 ? 1 : rows / 2;
   if (num_threads > cols / 2) num_threads = cols / 2 == 0 ? 1 : cols / 2;
   for (unsigned i = 0; i < num_threads; i++) {
@@ -129,7 +154,7 @@ Matrix<T> Matrix<T>::operator*(const Matrix<T>& rhs) const {
 
   // Create threads to perform multiplication
   std::vector<std::thread> threads;
-  unsigned num_threads = Matrix::num_threads;
+  unsigned num_threads = Matrix<T>::num_threads;
   if (num_threads > rows / 2) num_threads = rows / 2 == 0 ? 1 : rows / 2;
   for (unsigned i = 0; i < num_threads; i++) {
     threads.push_back(std::thread(&Matrix<T>::multiply, this, std::ref(rhs),

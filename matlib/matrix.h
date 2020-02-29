@@ -1,6 +1,7 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <cassert>
 #include <vector>
 
 template <typename T>
@@ -25,6 +26,8 @@ class Matrix {
   Matrix(const Matrix<T>& rhs);                 // Copy constructor
   ~Matrix();                                    // Destructor
 
+  bool operator==(
+      const Matrix<T>& rhs) const;  // Comparing if two matrices are equal
   T& operator()(const unsigned& i,
                 const unsigned& j);  // modify matrix elements
   const T& operator()(const unsigned& i,
@@ -37,10 +40,14 @@ class Matrix {
   Matrix<T> operator*(const Matrix<T>& rhs) const;  // Multiplication
   Matrix<T>& operator*=(const Matrix<T>& rhs);      // Multiplication
 
+  // Get the current default number of threads used
   static unsigned get_threads() { return num_threads; }
+
+  // Change the default number of threads used
   static void change_threads(unsigned num_t) {
+    assert(num_t > 0);
     num_threads = num_t;
-  }  // Change the default number of threads used
+  }
 };
 
 template <typename T>

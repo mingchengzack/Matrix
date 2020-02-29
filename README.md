@@ -3,8 +3,9 @@
 ## Instructions
 
 ### How to compile
-I had written a Makefile for compilation. Type make and a program called main.out,
-which showcases some simple cases for matrix transposition and multiplication.
+I had written a Makefile for compilation. Type make and a program called main.out
+will be compiled and ready to run, which showcases some simple cases for matrix
+transposition and multiplication.
 
 ### Usage
 The implementation of the library is is in matlib/matrix.h and matlib/matrix.cpp.
@@ -25,7 +26,7 @@ To perform multiplcation between matrices, we can either `matC = matA * matB` or
 I used two dimensional vector to represent the matrix. I use multi-threading to implement the transpose and multiplication method.
 
 ### Data Structure
-For the Matrix class, I have three 3 members.
+For the `Matrix<T>` class, I have three 3 members.
 * `unsigned rows`: the number of rows for the matrix
 * `unsigned cols`: the number of cols for the matrix
 * `vector<vector<T>> mat`: the actual matrix representation
@@ -33,7 +34,7 @@ For the Matrix class, I have three 3 members.
 
 ### Transposition
 I use multiple threads to compute the tranpose of a matrix. If there are `n` rows
-for the original matrix and `t` threads (`Matrix::num_threads = t`), I will have one thread to compute the `n / t` rows for the tranpose of the matrix using
+for the original matrix and `t` threads (`Matrix<T>::num_threads = t`), I will have one thread to compute the `n / t` rows for the tranpose of the matrix using
 `mat_tranpose[i][j] = mat[j][j]`.
 
 ### Multiplication
@@ -42,7 +43,7 @@ not, I would stop the program. (using assert)
 
 I use multiple threads to compute the multiplcation between two matrice. For a
 matrix A with `MxN` dimension and matrix B with `NxP` dimension, which means the
-result matrix will be `MxP` dimension. If I have `t` threads (`Matrix::num_threads = t`),
+result matrix will be `MxP` dimension. If I have `t` threads (`Matrix<T>::num_threads = t`),
 then I will have one thread to compute the `M / t` rows of the result matrix
 using `res[i][j] = matA[i][k] * mat[k][j]`.
 
@@ -50,4 +51,16 @@ using `res[i][j] = matA[i][k] * mat[k][j]`.
 For both transposition and multiplcation, I have one thread to handle the computation
 of at least two rows, so if there are `t` threads and `n` rows, where `t > rows / 2`,
 I would set `t = rows / 2`.
+
+To get the default number of threads, we can `Matrix<T>::get_threads()`.
+To change the default number of threads to use, we can `Matrix<T>::change_threads(unsigned num_t)`.
+The number of threads to use must be greater than 0.
+
+## Test
+I had written a simple unit test to test both matrix tranposition and multiplcation in
+test/test.cpp.
+
+## Other helper functions
+* `Matrix<T> operator==(const &Matrix<T> rhs);`: check if two matrices are equal
+* `print()`: print out the matrix
 
