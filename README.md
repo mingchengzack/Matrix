@@ -3,23 +3,23 @@
 ## Instructions
 
 ### How to compile
-I had written a Makefile for compilation. Type make and a program called main.out
-and a test program called /test/test.out will be compiled and ready to run. `main.out`
+I had written a Makefile for compilation. Type make and a program called `main.out`
+and a test program called `/test/test.out` will be compiled and ready to run. `main.out`
 showcases some simple cases for matrix transposition and multiplication. `test.out`
 runs some unit tests on both functions.
 
 ### Usage
-The implementation of the library is is in matlib/matrix.h and matlib/matrix.cpp.
-For using the library, simply include "matrix.h". I implemented a class called
+The implementation of the library is is in `matlib/matrix.h` and `matlib/matrix.cpp`.
+For using the library, simply `#include "matrix.h"`. I implemented a class called
 Matrix and the methods for transposition and multiplcation.
 
 To declare a Matrix object, we can declare `Matrix<T> mat(M, N, val)`, where it
-declares a MxN matrix where each entry is val, and T is the numerical type such
+declares a `MxN` matrix where each entry is val, and T is the numerical type such
 as int and double. We can also declare a matrix using two dimensional
 vector, `Matrix<T> mat(vector<vector<T>>)`. For simplicity, I assume the input
 for both declaration are valid.
 
-To perform get the transpose of a matrix, we use Matrix<T>.transpose().
+To perform get the transpose of a matrix, we use `Matrix<T>.transpose()`.
 To perform multiplcation between matrices, we can either `matC = matA * matB` or
 `matA *= matB`.
 
@@ -40,7 +40,7 @@ for the original matrix and `t` threads (`Matrix<T>::num_threads = t`), I will h
 
 ### Multiplication
 Before doing a multiplcation, I check if two matrice have the matching dimension and if
-not, I would stop the program. (using assert)
+not, I would stop the program. (using `assert`)
 
 I use multiple threads to compute the multiplcation between two matrice. For a
 matrix A with `MxN` dimension and matrix B with `NxP` dimension, which means the
